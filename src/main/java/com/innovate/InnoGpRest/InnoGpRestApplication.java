@@ -7,9 +7,11 @@ import java.io.IOException;
 import org.ini4j.Wini;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class InnoGpRestApplication {
+public class InnoGpRestApplication extends SpringBootServletInitializer {
 	private static String nombreFicheroIni = "InnoGpbREST.ini";
 	private static String puerto = "9000";
 	private static String apiKey = "";
@@ -25,6 +27,11 @@ public class InnoGpRestApplication {
 			crearFichero();
 		}
 	}
+
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(InnoGpRestApplication.class).properties("server.port="+puerto);
+    }
 
 	private static void crearFichero() {
 		try {
