@@ -16,20 +16,7 @@ public class ControladorConsultas {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Object devuelveDato(String sql) {
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-            Map<String, Object> resultado = new HashMap<>();
-            int columnCount = rs.getMetaData().getColumnCount();
-
-            for (int i = 1; i <= columnCount; i++) {
-                String columnName = rs.getMetaData().getColumnName(i);
-                Object columnValue = rs.getObject(i);
-                resultado.put(columnName, columnValue);
-            }
-
-            return resultado;
-        });
-    }
+    
 
     public ResponseEntity<Object> testConexion() {
         Map<String, Object> respuesta = new HashMap<>();
@@ -49,6 +36,21 @@ public class ControladorConsultas {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(respuesta);
         }
+    }
+
+    public Object devuelveDato(String sql) {
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            Map<String, Object> resultado = new HashMap<>();
+            int columnCount = rs.getMetaData().getColumnCount();
+
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = rs.getMetaData().getColumnName(i);
+                Object columnValue = rs.getObject(i);
+                resultado.put(columnName, columnValue);
+            }
+
+            return resultado;
+        });
     }
 
     public List<Map<String, Object>> devuelveDatos(String sql) {

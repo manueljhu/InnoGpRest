@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.PostConstruct;
+
+import org.springframework.boot.autoconfigure.batch.BatchProperties.Jdbc;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,8 +26,8 @@ public class ControladorEndpoints {
     private String apiKey = "";
     private final String mensajeAPIKEY = "La API_KEY introducida no es válida. Acceso denegado.";
 
-    public ControladorEndpoints(ControladorConsultas controladorConsultas) {
-        this.controladorConsultas = controladorConsultas;
+    public ControladorEndpoints(JdbcTemplate jdbcTemplate) {
+        this.controladorConsultas = new ControladorConsultas(jdbcTemplate);
     }
 
     @PostConstruct
